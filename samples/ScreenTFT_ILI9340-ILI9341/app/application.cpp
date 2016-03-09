@@ -1,6 +1,6 @@
 #include <user_config.h>
 #include <SmingCore/SmingCore.h>
-#include <Libraries/Adafruit_ILI9341/Adafruit_ILI9341.h>
+#include <Libraries/Adafruit_ILI9340/Adafruit_ILI9341.h>
 
 // If you want, you can define WiFi settings globally in Eclipse Environment Variables
 #ifndef WIFI_SSID
@@ -17,8 +17,11 @@ CS GPIO15
 DC GPIO5
 RST GPIO4
 */
+int8_t CS = 15;
+int8_t DC = 5;
+int8_t RST = 4;
 
-Adafruit_ILI9341 tft;
+Adafruit_ILI9341 tft(15, 5, 4);
 
 Timer guiTimer;
 
