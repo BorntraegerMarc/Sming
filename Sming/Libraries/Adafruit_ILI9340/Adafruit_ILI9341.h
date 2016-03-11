@@ -30,7 +30,7 @@
 #endif
 
 
-#if defined (__AVR__) || defined(TEENSYDUINO) || defined (__arm__)
+#if defined (__AVR__) || defined(TEENSYDUINO) || defined (__arm__) || defined (__ESP8266_EX__)
 #define USE_FAST_PINIO
 #endif
 

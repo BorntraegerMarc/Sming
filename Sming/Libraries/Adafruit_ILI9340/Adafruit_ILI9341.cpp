@@ -36,7 +36,7 @@ static inline void spi_begin(void) {
   SPI.beginTransaction(SPISettings(16000000, MSBFIRST, SPI_MODE0));
 #else
     // max speed!
-  SPI.beginTransaction(SPISettings(20000000, MSBFIRST, SPI_MODE0));
+  SPI.beginTransaction(SPISettings(40000000, MSBFIRST, SPI_MODE0));
 #endif
 }
 static inline void spi_end(void) __attribute__((always_inline));
