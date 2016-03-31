@@ -16,22 +16,17 @@ class ArduCamCommand
 public:
 	ArduCamCommand(ArduCAM *CAM);
 	virtual ~ArduCamCommand();
-	void initCommand();
 	const char * getContentType();
 	void set_size(String size);
 	void set_type(String type);
-
-
 
 private:
 	bool status = true;
 	ArduCAM *myCAM;
 	uint8	imgType;
 	uint8	imgSize;
-	void processSetCommands(String commandLine, CommandOutput* commandOutput);
 
 	void set_format(uint8 type);
-	void showSettings(CommandOutput* commandOutput);
 
 	const char * getImageType();
 	const char * getImageSize();

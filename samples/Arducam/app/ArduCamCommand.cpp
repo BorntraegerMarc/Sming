@@ -1,9 +1,6 @@
-
 #include <ArduCamCommand.h>
 #include <Libraries/ArduCam/ArduCAM.h>
 #include <Libraries/ArduCAM/ov2640_regs.h>
-
-
 
 ArduCamCommand::ArduCamCommand(ArduCAM *CAM) {
 	debugf("ArduCamCommand Instantiating");
@@ -14,103 +11,6 @@ ArduCamCommand::ArduCamCommand(ArduCAM *CAM) {
 
 ArduCamCommand::~ArduCamCommand() {
 }
-
-void ArduCamCommand::initCommand() {
-	commandHandler.registerCommand(
-			CommandDelegate("set", "ArduCAM config commands", "Application",
-					commandFunctionDelegate(&ArduCamCommand::processSetCommands,this)));
-//	commandHandler.registerCommand(
-//			CommandDelegate("out", "ArduCAM output commands", "Application",
-//					commandFunctionDelegate(&ArduCamCommand::processOutCommands,this)));
-}
-
-void ArduCamCommand::showSettings(CommandOutput* commandOutput) {
-	// review settings
-		commandOutput->printf("ArduCam Settings:\n");
-		commandOutput->printf("    img Type: [%s]\n", getImageType());
-		commandOutput->printf("    img Size: [%s]\n", getImageSize());
-};
-
-void ArduCamCommand::processSetCommands(String commandLine,
-		CommandOutput* commandOutput) {
-	Vector<String> commandToken;
-	int numToken = splitString(commandLine, ' ', commandToken);
-
-	if (numToken == 1) {
-	// review settings
-		showSettings(commandOutput);
-	}
-	// handle command ->   set
-	else if (commandToken[1] == "help") {
-		commandOutput->printf("set img 	[bmp|jpeg]\r\n");
-		commandOutput->printf("set size [160|176|320|352|640|800|1024|1280|1600]\r\n");
-	}
-
-	// handle command ->   set
-	else if (commandToken[1] == "img") {
-		if (numToken == 3) {
-			if (commandToken[2] == "bmp") {
-				// TODO: set image size and init cam
-//				settings->setImageType(BMP);
-				set_format(BMP);
-			} else if (commandToken[2] == "jpg") {
-				set_format(JPEG);
-			} else
-				commandOutput->printf("invalid image format [%s]\r\n", commandToken[2]);
-		} else {
-			commandOutput->printf("Syntax: set img [bmp|jpeg]\r\n");
-		}
-		showSettings(commandOutput);
-	}
-
-	// handle command ->   settings
-	else if (commandToken[1] == "size") {
-		if (numToken == 3) {
-			if (commandToken[2] == "160") {
-				imgSize = OV2640_160x120;
-				myCAM->OV2640_set_JPEG_size(OV2640_160x120);
-				set_format(JPEG);
-			} else if (commandToken[2] == "176") {
-				imgSize = OV2640_176x144;
-				myCAM->OV2640_set_JPEG_size(OV2640_176x144);
-				set_format(JPEG);
-			} else if (commandToken[2] == "320") {
-				imgSize = OV2640_320x240;
-				myCAM->OV2640_set_JPEG_size(OV2640_320x240);
-			} else if (commandToken[2] == "352") {
-				imgSize = OV2640_352x288;
-				myCAM->OV2640_set_JPEG_size(OV2640_352x288);
-				set_format(JPEG);
-			} else if (commandToken[2] == "640") {
-				imgSize = OV2640_640x480;
-				myCAM->OV2640_set_JPEG_size(OV2640_640x480);
-				set_format(JPEG);
-			} else if (commandToken[2] == "800") {
-				imgSize = OV2640_800x600;
-				myCAM->OV2640_set_JPEG_size(OV2640_800x600);
-				set_format(JPEG);
-			} else if (commandToken[2] == "1024") {
-				imgSize = OV2640_1024x768;
-				myCAM->OV2640_set_JPEG_size(OV2640_1024x768);
-				set_format(JPEG);
-			} else if (commandToken[2] == "1280") {
-				imgSize = OV2640_1280x1024;
-				myCAM->OV2640_set_JPEG_size(OV2640_1280x1024);
-				set_format(JPEG);
-			} else if (commandToken[2] == "1600") {
-				imgSize = OV2640_1600x1200;
-				myCAM->OV2640_set_JPEG_size(OV2640_1600x1200);
-				set_format(JPEG);
-			} else {
-				commandOutput->printf("invalid size definition[%s]\r\n", commandToken[2]);
-			}
-		} else {
-			commandOutput->printf("Syntax: set size [160|176|320|352|640|800|1024|1280|1600]\r\n");
-		}
-		showSettings(commandOutput);
-	}
-}
-
 
 void ArduCamCommand::set_size(String size) {
 	if (size == "160x120") {
@@ -195,7 +95,6 @@ void ArduCamCommand::set_format(uint8 type) {
 	}
 }
 
-
 const char * ArduCamCommand::getImageType() {
 	switch (imgType) {
 	case JPEG:
@@ -219,19 +118,19 @@ const char * ArduCamCommand::getContentType() {
 const char * ArduCamCommand::getImageSize() {
 	switch (imgSize) {
 	case OV2640_1600x1200:
-		return  "1600x1200";
+		return "1600x1200";
 	case OV2640_1280x1024:
-		return  "1280x1024";
+		return "1280x1024";
 	case OV2640_1024x768:
-		return  "1024x768";
+		return "1024x768";
 	case OV2640_800x600:
-		return  "800x600";
+		return "800x600";
 	case OV2640_640x480:
-		return  "640x480";
+		return "640x480";
 	case OV2640_352x288:
-		return  "352x288";
+		return "352x288";
 	case OV2640_320x240:
-		return  "320x240";
+		return "320x240";
 	case OV2640_176x144:
 		return "176x144";
 	case OV2640_160x120:
@@ -240,6 +139,4 @@ const char * ArduCamCommand::getImageSize() {
 		return "320x240";
 	}
 }
-
-
 
