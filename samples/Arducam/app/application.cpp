@@ -2,7 +2,6 @@
 #include <SmingCore/SmingCore.h>
 #include <SmingCore/Debug.h>
 
-#include <ArduCamCommand.h>
 #include <ArduCamWrapper.h>
 
 #include <Libraries/ArduCam/ArduCAM.h>
@@ -36,15 +35,10 @@
 
 #define CAM_CS   	16	// this pins are free to change
 
-uint32_t startTime;
-
 HttpServer server;
-
-HexDump hdump;
 
 ArduCAM myCAM(OV2640, CAM_CS);
 
-ArduCamCommand arduCamCommand(&myCAM);
 ArduCamWrapper arduCamWrapper(&myCAM);
 
 /*
@@ -75,11 +69,11 @@ void onCamSetup(HttpRequest &request, HttpResponse &response) {
 	if (request.getRequestMethod() == RequestMethod::POST) {
 		type = request.getPostParameter("type");
 		debugf("set type %s", type);
-		arduCamCommand.set_type(type);
+		arduCamWrapper.set_type(type);
 
 		size = request.getPostParameter("size");
 		debugf("set size %s", size);
-		arduCamCommand.set_size(size);
+		arduCamWrapper.set_size(size);
 	}
 
 	response.sendString("OK");
@@ -98,20 +92,16 @@ void onCapture(HttpRequest &request, HttpResponse &response) {
 	myCAM.write_reg(ARDUCHIP_FRAMES, 0x00);
 
 	// get the picture
-	startTime = millis();
 	arduCamWrapper.startCapture();
-	Serial.printf("onCapture() startCapture() %d ms\r\n", millis() - startTime);
 
 	ArduCAMStream *stream = new ArduCAMStream(&myCAM);
 
-	const char * contentType = arduCamCommand.getContentType();
+	const char * contentType = arduCamWrapper.getContentType();
 
 	if (stream->dataReady()) {
 		response.setHeader("Content Lenght", String(stream->available()));
 		response.sendDataStream(stream, contentType);
 	}
-
-	Serial.printf("onCapture() process Stream %d ms\r\n", millis() - startTime);
 }
 
 /*

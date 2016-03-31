@@ -8,6 +8,14 @@ public:
 	virtual ~ArduCamWrapper();
 	void initCam();
 	void startCapture();
+	const char * getContentType();
+	void set_size(String size);
+	void set_type(String type);
+
 private:
 	ArduCAM *myCAM;
+	uint8 imgType;
+	uint8 imgSize;
+
+	void set_format(uint8 type);
 };
