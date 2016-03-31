@@ -76,3 +76,8 @@ void ArduCamWrapper::initCam() {
 	myCAM->set_format(JPEG);
 	myCAM->InitCAM();
 }
+
+void ArduCamWrapper::startCapture() {
+	myCAM->clear_fifo_flag();
+	myCAM->start_capture();
+}

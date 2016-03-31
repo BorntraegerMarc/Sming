@@ -7,6 +7,7 @@ public:
 	ArduCamWrapper(ArduCAM *CAM);
 	virtual ~ArduCamWrapper();
 	void initCam();
+	void startCapture();
 private:
 	ArduCAM *myCAM;
 };
